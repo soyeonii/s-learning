@@ -90,3 +90,34 @@
  *           description: "비밀번호 불일치"
  * 
  */
+
+
+/**
+ * @swagger
+ * paths:
+ *   /verify:
+ *     post:
+ *       tags: [user]
+ *       summary: "액세스 토큰 확인"
+ *       parameters:
+ *         - name: token
+ *           in: body
+ *           description: "액세스 토큰 확인"
+ *           required: true
+ *           schema:
+ *             type: string
+ *           examples:
+ *             Sample:
+ *               value: "zXc325vcakslaxqopweisqws"
+ *               summary: "token"
+ *           style: simple
+ * 
+ *       responses:
+ *         "200":
+ *           description: "토큰 일치"
+ *         "-1":
+ *           description: "invalid token"
+ *         "-2":
+ *           description: "expired token"
+ * 
+ */
