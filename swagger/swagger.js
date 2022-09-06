@@ -13,11 +13,11 @@ const options = {
     basePath: '/api',
     servers: [
       {
-          "url": "http://localhost:3000/api",
+          "url": "http://localhost:3000",
           "description": "Development server"
       },
       {
-          "url": "http://url:3000/api",
+          "url": "http://url:3000",
           "description": "Production server"
       },
     ],

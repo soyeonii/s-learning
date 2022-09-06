@@ -1,139 +1,80 @@
-const { rejects } = require('assert');
-const res = require('express/lib/response');
 const jwtlogic = require('../middleware/jwtlogic');
-const { request } = require('http');
-const { resolve } = require('path');
-const pool = require('../config/db').init();
 const qry = require('../config/query');
-const errorHttp = require('../config/error');
-
-const transactionQuery = (sql) => {
-  return new Promise((resolve, reject) => {
-    pool.getConnection((err, con) => {
-      if(err) reject(err);
-      
-      con.beginTransaction();
-      con.query(sql, (err, rows) => {
-        if(err) {
-          con.rollback();
-          con.release();
-          reject(err);
-          throw err;
-        }
-        
-        con.commit();
-        con.release();
-        resolve(rows);
-      });
-    });
-  })
-}
-
-const selectQuery = (sql) => {
-  return new Promise((resolve, reject) => {
-    pool.getConnection((err, con) => {
-      if(err){
-        con.release();
-        reject(err);
-      }
-      con.query(sql, (err, rows) => {
-        if(err){
-          con.release();
-          reject(err);
-        }
-        con.release();
-        resolve(rows);
-      });
-    });
-  })
-}
-/* ****
- * 쿼리 보내는 함수가 자주 나오는 것 같아
- * 가독성 향상을 위해
- * selectQuery 함수를 따로 만들었습니다.
-***** */
+const errorCode = require('../config/error');
+const con = require('../config/connection');
+const pool = con.init();
+con.check(pool);
 
 module.exports = {
-
   search: async (id) => {
     searchUserSql = qry.searchUser(id);
-    return new Promise(async (resolve, reject) => {
-      try{
-        rows = await selectQuery(searchUserSql);
-        resolve(rows);
+    try{
+      rows = await con.selectQuery(searchUserSql, pool);
+      if(Object.keys(rows).length == 0){ // 해당 id가 없다면 throw
+        throw('the user doesn\'t exist!');
       }
-      catch(err) { reject(err); }
-    })
+      return rows;
+    }
+    catch(err) {return err;}
   },
+
 
   searchAllInfo: async () => {
     searchAllUserSql = qry.searchAllUser();
-    
-    return new Promise(async (resolve, reject) => {
-      try{
-        rows = await selectQuery(searchAllUserSql);
-        resolve(rows);
-      }
-      catch(err) { reject(err); }
-    })
+    try{
+      rows = await con.selectQuery(searchAllUserSql, pool);
+      return rows;
+    }
+    catch(err) {return err;}
   },
 
 
-  signIn: async (id, password) => {
-    getPasswordSql = qry.getPassword(id);
-    
-    return new Promise(async (resolve, reject) => {
-      try{
-        rows = await selectQuery(getPasswordSql);
-        // password 가 틀리다면 throw로 err값 던진 후 reject 호출
-        if(Object.keys(rows).length == 0){
-          throw('the id doesn\'t exist!');
-        }
-        else if(rows[0]['Password'] != password){
-          throw('password error!');
-        } else { // 로그인 성공 + jwt 토큰 발급
-          token = await jwtlogic.sign(id);
-          resolve(token);
-        }
+  signIn: async (user) => {
+    // 쿼리 내에서 비밀번호 검사 해야함 나중에 바꿀것
+    getPasswordSql = qry.getPassword(user.id);
+    try{
+      rows = await con.selectQuery(getPasswordSql, pool);
+      // password 가 틀리다면 throw로 err값 던진 후 reject 호출
+      if(Object.keys(rows).length == 0){
+        throw('the id doesn\'t exist!');
       }
-      catch(err) { reject(err); }
-    })
+      else if(rows[0]['Password'] != user.password){
+        throw('password error!');
+      }
+      else { // 로그인 성공 + jwt 토큰 발급
+        token = await jwtlogic.sign(user.id);
+        return(token);
+      }
+    }
+    catch(err) {return err;}
   },
 
   
-  signUp: async (id, password, detail) => {
-    insertUserSql = await qry.insertUser(id, password, detail);
-
-    return new Promise(async (resolve, reject) => {
-      try{
-        await transactionQuery(insertUserSql);
-        resolve('Success');
-      }
-      catch(err) { reject(err); }
-    })
+  signUp: async (user) => {
+    insertUserSql = qry.insertUser(user);
+    try{
+      await con.transactionQuery(insertUserSql, pool);
+      return 'Success';
+    }
+    catch(err) {return err;}
   },
 
   
   searchUser: async (id) => {
-    searchUserSql = await qry.searchUser(id);
-
-    return new Promise(async (resolve, reject) => {
-      try{
-        rows = await selectQuery(searchUserSql);
-        resolve(rows);
-      }
-      catch(err) { reject(err); }
-    })
+    searchUserSql = qry.searchUser(id);
+    try{
+      rows = await con.selectQuery(searchUserSql, pool);
+      return rows;
+    }
+    catch(err) {return err;}
   },
 
   
-  verify: async (token) => {
-    return new Promise(async (resolve, reject) => {
-      try{
-        rows = await jwtlogic.verify(token);
-        resolve(rows);
-      }
-      catch(err) { reject(err); }
-    })
+  verify: (token) => {
+    try{
+      rows = jwtlogic.verify(token);
+      return rows;
+    }
+    catch(err) {return err;}
   },
 }

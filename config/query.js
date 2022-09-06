@@ -19,7 +19,7 @@ module.exports = {
     ;`;
   },
 
-  insertUser: (id, password, detail) => {
+  insertUser: (user) => {
     return `
       INSERT INTO
         user
@@ -29,9 +29,9 @@ module.exports = {
         Detail
       )
       VALUES (
-        '${id}',
-        '${password}',
-        '${detail}'
+        '${user.id}',
+        '${user.password}',
+        '${user.detail}'
       )
     ;`;
   },

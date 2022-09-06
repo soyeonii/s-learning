@@ -32,11 +32,12 @@ module.exports = {
   },
 
 
-  verify: async (token) => {
+  verify: (token) => {
     let decoded;
     try {
-    // verify를 통해 값 decode
+      // verify를 통해 값 decode
       decoded = jwt.verify(token, secretKey);
+      return decoded;
     }
     catch (err) {
       if (err.message === 'jwt expired') {
@@ -47,6 +48,5 @@ module.exports = {
           return TOKEN_INVALID;
       }
     }
-    return decoded;
   }
 }

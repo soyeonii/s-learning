@@ -1,5 +1,4 @@
 const User = require("../model/user");
-const axios = require('axios');
 
 module.exports = {
 
@@ -11,33 +10,29 @@ module.exports = {
   searchAllUser: async (req, res) => {
     try {
       rows = await User.searchAllInfo();
-      //  + model 로 변환 로직 구현
       return res.json(rows);
-
     }
-    catch(err){ return err; }
+    catch(err){ res.json(err); }
   },
   
 
   searchUser: async (req, res) => {
     try {
       rows = await User.search(req.params.id);
-      //  + model 로 변환 로직 구현
       return res.json(rows);
     }
-    catch(err){ return err; }
+    catch(err){ console.log(err);res.json(err); }
   },
 
 
   signUp: async (req, res) => {
+    const user = {
+      id: req.body.id,
+      password: req.body.password,
+      detail: req.body.detail || ''
+    }
+
     try {
-      // 추후에 model 로 변환 로직 구현
-      const user = {
-        id: req.body.id,
-        password: req.body.password,
-        detail: req.body.detail || ''
-      }
-      
       if(user.id == '' || user.password == ''){
         throw "insert id or password!"
       }
@@ -46,7 +41,7 @@ module.exports = {
         throw "the id is already exist"
       }
       
-      rows = await User.signUp(user.id, user.password, user.detail);
+      rows = await User.signUp(user);
       return res.json(rows);
     }
     catch(err){ res.json(err); }
@@ -54,17 +49,24 @@ module.exports = {
   
 
   signIn: async (req, res) => {
+    const user = {
+      id: req.body.id,
+      password: req.body.password
+    }
     try {
-      rows = await User.signIn(req.body.id, req.body.password);
+      if(user.id == '' || user.password == ''){
+        throw "insert id or password!"
+      }
+      rows = await User.signIn(user);
       return res.json(rows);
     }
     catch(err){ res.json(err); }
   },
   
 
-  verify: async (req, res) => {
+  verify: (req, res) => {
     try {
-      rows = await User.verify(req.body.token);
+      rows = User.verify(req.body.token);
       return res.json(rows);
     }
     catch(err){ res.json(err); }
