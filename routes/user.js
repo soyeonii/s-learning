@@ -7,6 +7,7 @@ module.exports = {
   },
 
 
+  // 모든 유저 검색
   searchAll: async (req, res) => {
     try {
       rows = await User.searchAll();
@@ -16,6 +17,7 @@ module.exports = {
   },
   
 
+  // 유저 아이디 값으로 단일 검색
   searchById: async (req, res) => {
     try {
       rows = await User.searchById(req.params.id);
@@ -25,6 +27,7 @@ module.exports = {
   },
 
 
+  // 유저 생성
   insert: async (req, res) => {
     const user = {
       id: req.body.id,
@@ -48,6 +51,7 @@ module.exports = {
   },
   
 
+  // 로그인 => 세션 토큰 생성 후 반환
   login: async (req, res) => {
     const user = {
       id: req.body.id,
@@ -64,6 +68,7 @@ module.exports = {
   },
   
 
+  // 세션 토큰 검사
   verify: (req, res) => {
     try {
       rows = User.verify(req.body.token);

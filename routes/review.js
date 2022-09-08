@@ -2,6 +2,7 @@ const Review = require("../model/review");
 
 module.exports = {
 
+  // culture art number 로 해당 문화예관의 모든 리뷰 검색
   searchByCaNo: async (req, res) => {
     try {
       const ca = {
@@ -17,6 +18,7 @@ module.exports = {
   },
 
 
+  // 리뷰 생성
   insert: async (req, res) => {
     try {
       const review = {
