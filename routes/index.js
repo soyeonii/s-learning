@@ -8,6 +8,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
+// 스웨거 페이지
 app.use("/api", swaggerUi.serve, swaggerUi.setup(specs, {explorer: true}))
 
 app.get("/", User.mainView);
