@@ -51,6 +51,7 @@ module.exports = {
 
 
   searchCultureArt: (filter) => {
+    // 해당 시 , 해당 구의 회관 리스트 반환
     if(filter.city && filter.district) {
       return `
         SELECT
@@ -79,6 +80,7 @@ module.exports = {
           signgu_cd = '${filter.district}'
       ;`;
     }
+    // 해당 시의 구 리스트 반환
     // 시군구코드, 시군구 명칭 district_cd, district_nm 으로 반환
     else if(filter.city) {
       return `
@@ -94,6 +96,7 @@ module.exports = {
           signgu_nm
       ;`;
     }
+    // 시 리스트 반환
     else return `
       SELECT
         ctprvn_cd AS city_cd,
@@ -136,12 +139,14 @@ module.exports = {
       INSERT INTO
         review.review
       (
+        rv_cd,
         user_id,
         ca_no,
         comment
       )
       VALUES
       (
+        '${review.rv_cd}',
         '${review.user_id}',
         '${review.ca_no}',
         '${review.comment}'

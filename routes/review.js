@@ -19,14 +19,17 @@ module.exports = {
 
 
   // 리뷰 생성
+  // rv_cd 자동 카운트 하는 프로시저를 추후에 만들겠습니다.
+  // 지금은 수동으로 기입해주세요.
   insert: async (req, res) => {
     try {
       const review = {
+        rv_cd:req.body.rv_cd||'',
         user_id:req.body.user_id||'',
         ca_no:req.body.ca_no||'',
         comment:req.body.comment||''
       }
-      if(review.user_id == '' || review.ca_no == '' || review.comment == '') {
+      if(review.rv_cd == '' || review.user_id == '' || review.ca_no == '' || review.comment == '') {
         return res.status(400).json("insert review!")
       }
       await Review.insert(review);
