@@ -1,23 +1,31 @@
 const PORT = 3000;
 const { swaggerUi, specs } = require("../swagger/swagger")
-const controller = require("./controller");
+const User = require("./user");
+const CultureArt = require("./culture_art");
+const Review = require("./review");
 const express = require("express");
 const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
-
 app.use("/api", swaggerUi.serve, swaggerUi.setup(specs, {explorer: true}))
 
-app.get("/", controller.mainView);
+app.get("/", User.mainView);
 
-app.get("/user", controller.searchAllUser);
+app.get("/users", User.searchAll);
 
-app.post("/user", controller.signUp);
+app.post("/users", User.insert);
 
-app.get("/user/:id", controller.searchUser);
+app.get("/users/:id", User.searchById);
 
-app.post("/signin", controller.signIn);
+app.post("/users/login", User.login);
 
-app.post("/verify", controller.verify);
+app.post("/users/verify", User.verify);
+
+app.get("/culture-arts", CultureArt.search);
+
+app.post("/reviews/list", Review.searchByCaNo);
+
+app.post("/reviews", Review.insert);
 
 app.listen(PORT, '0.0.0.0', () => console.log('server has been running...'));

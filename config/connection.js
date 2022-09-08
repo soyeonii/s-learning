@@ -8,7 +8,7 @@ module.exports = {
       user            : process.env.user, //계정이름
       password        : process.env.password, //비밀번호
       port            : process.env.port, //포트
-      database        : process.env.database, //DB 이름
+      database        : process.env.database,
       connectionLimit : process.env.connectionLimit //DB 이름
     });
   },
@@ -42,7 +42,7 @@ module.exports = {
           }
         });
       });
-    }).catch(err => err);
+    }).catch(err => {throw err});
   },
 
   transactionQuery: async (sql, pool) => {
@@ -67,6 +67,6 @@ module.exports = {
           }
         });
       });
-    }).catch(err => err);
+    }).catch(err => {throw err});
   }
 }

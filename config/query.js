@@ -4,16 +4,16 @@ module.exports = {
       SELECT
         *
       FROM
-        user;
+        users.users;
     ;`;
   },
 
-  getPassword: (id) => {
+  getPasswordById: (id) => {
     return `
       SELECT
         Password
       FROM
-        user
+        users.users
       WHERE
         ID = '${id}'
     ;`;
@@ -22,13 +22,14 @@ module.exports = {
   insertUser: (user) => {
     return `
       INSERT INTO
-        user
+        users.users
       (
         ID,
         Password,
         Detail
       )
-      VALUES (
+      VALUES
+      (
         '${user.id}',
         '${user.password}',
         '${user.detail}'
@@ -37,14 +38,113 @@ module.exports = {
   },
 
 
-  searchUser: (id) => {
+  searchUserById: (id) => {
     return `
       SELECT
         *
       FROM
-        user
+        users.users
       WHERE
         id = '${id}'
+    ;`;
+  },
+
+
+  searchCultureArt: (filter) => {
+    if(filter.city && filter.district) {
+      return `
+        SELECT
+          SN AS ca_no,
+          ctprvn_nm,
+          signgu_nm,
+          instt_nm,
+          fclty_nm,
+          rprsntv_nm,
+          dues_ct,
+          dues_unit_cn,
+          addr,
+          zip_no,
+          tel_no,
+          fax_no,
+          hmpg_addr,
+          sbscrb_yy,
+          totar_mg,
+          totar_yy,
+          lo_val,
+          la_val
+        FROM
+          culture_art.clturart_union_info
+        WHERE
+          ctprvn_cd = '${filter.city}' AND
+          signgu_cd = '${filter.district}'
+      ;`;
+    }
+    else if(filter.city) {
+      return `
+        SELECT
+          signgu_cd AS district_cd,
+          signgu_nm AS district_nm,
+          count(*) AS ca_cnt
+        FROM
+          culture_art.clturart_union_info
+        WHERE
+          ctprvn_cd = '${filter.city}'
+        GROUP BY
+          signgu_nm
+      ;`;
+    }
+    else return `
+      SELECT
+        ctprvn_cd AS city_cd,
+        ctprvn_nm AS city_nm,
+        count(*) AS ca_cnt
+      FROM
+        culture_art.clturart_union_info
+      GROUP BY
+        ctprvn_nm
+    ;`;
+  },
+
+
+  searchUserById: (id) => {
+    return `
+      SELECT
+        *
+      FROM
+        users.users
+      WHERE
+        id = '${id}'
+    ;`;
+  },
+
+
+  searchReviewByCaNo: (ca_no) => {
+    return `
+      SELECT
+        *
+      FROM
+        review.review
+      WHERE
+        ca_no = '${ca_no}'
+    ;`;
+  },
+
+
+  insertReview: (review) => {
+    return `
+      INSERT INTO
+        review.review
+      (
+        user_id,
+        ca_no,
+        comment
+      )
+      VALUES
+      (
+        '${review.user_id}',
+        '${review.ca_no}',
+        '${review.comment}'
+      )
     ;`;
   },
 }

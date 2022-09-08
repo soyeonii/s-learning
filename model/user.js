@@ -6,34 +6,34 @@ const pool = con.init();
 con.check(pool);
 
 module.exports = {
-  search: async (id) => {
-    searchUserSql = qry.searchUser(id);
+  searchById: async (id) => {
+    searchUserByIdSql = qry.searchUserById(id);
     try{
-      rows = await con.selectQuery(searchUserSql, pool);
+      rows = await con.selectQuery(searchUserByIdSql, pool);
       if(Object.keys(rows).length == 0){ // 해당 id가 없다면 throw
         throw('the user doesn\'t exist!');
       }
       return rows;
     }
-    catch(err) {return err;}
+    catch(err) {throw err;}
   },
 
 
-  searchAllInfo: async () => {
+  searchAll: async () => {
     searchAllUserSql = qry.searchAllUser();
     try{
       rows = await con.selectQuery(searchAllUserSql, pool);
       return rows;
     }
-    catch(err) {return err;}
+    catch(err) {throw err;}
   },
 
 
-  signIn: async (user) => {
+  logIn: async (user) => {
     // 쿼리 내에서 비밀번호 검사 해야함 나중에 바꿀것
-    getPasswordSql = qry.getPassword(user.id);
+    getPasswordByIdSql = qry.getPasswordById(user.id);
     try{
-      rows = await con.selectQuery(getPasswordSql, pool);
+      rows = await con.selectQuery(getPasswordByIdSql, pool);
       // password 가 틀리다면 throw로 err값 던진 후 reject 호출
       if(Object.keys(rows).length == 0){
         throw('the id doesn\'t exist!');
@@ -46,17 +46,17 @@ module.exports = {
         return(token);
       }
     }
-    catch(err) {return err;}
+    catch(err) {throw err;}
   },
 
   
-  signUp: async (user) => {
+  insert: async (user) => {
     insertUserSql = qry.insertUser(user);
     try{
       await con.transactionQuery(insertUserSql, pool);
       return 'Success';
     }
-    catch(err) {return err;}
+    catch(err) {throw err;}
   },
 
   
@@ -66,7 +66,7 @@ module.exports = {
       rows = await con.selectQuery(searchUserSql, pool);
       return rows;
     }
-    catch(err) {return err;}
+    catch(err) {throw err;}
   },
 
   
@@ -75,6 +75,7 @@ module.exports = {
       rows = jwtlogic.verify(token);
       return rows;
     }
-    catch(err) {return err;}
+    catch(err) {throw err;}
   },
+
 }
