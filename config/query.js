@@ -79,6 +79,7 @@ module.exports = {
           signgu_cd = '${filter.district}'
       ;`;
     }
+    // 시군구코드, 시군구 명칭 district_cd, district_nm 으로 반환
     else if(filter.city) {
       return `
         SELECT
@@ -117,7 +118,7 @@ module.exports = {
     ;`;
   },
 
-
+  // ca_no -> 문화예술회관 id number
   searchReviewByCaNo: (ca_no) => {
     return `
       SELECT
