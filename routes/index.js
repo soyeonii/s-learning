@@ -1,4 +1,6 @@
+require("dotenv").config({ path: __dirname + `/../.env` });
 const PORT = 3000;
+const cors = require('cors');
 const { swaggerUi, specs } = require("../swagger/swagger");
 const User = require("./user");
 const CultureArt = require("./culture_art");
@@ -6,8 +8,11 @@ const Review = require("./review");
 const express = require("express");
 const app = express();
 
+// 미들웨어
+app.use(cors()); // CORS 미들웨어
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 // 스웨거 페이지
 app.use("/api", swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
 

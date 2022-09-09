@@ -17,7 +17,8 @@ const options = {
           "description": "Development server"
       },
       {
-          "url": "http://url:3000",
+          // env 에 server 주소 넣어주세요
+          "url": `http://${process.env.server}:3000`,
           "description": "Production server"
       },
     ],
