@@ -118,11 +118,23 @@
 /**
  * @swagger
  * paths:
- *   /users/:id:
+ *   /users/{id}:
  *     get:
+ *       tags: [users]
  *       summary: "id 값으로 유저 정보 출력"
  *       description: "서버에 데이터를 보내지 않고 Get 방식으로 요청"
- *       tags: [users]
+ *       parameters:
+ *         -  name: id
+ *            in: path
+ *            description: "id"
+ *            required: true
+ *            schema:
+ *              type: string
+ *            examples:
+ *              Sample:
+ *                value: "admin"
+ *                summary: "admin"
+ *            style: simple
  *       responses:
  *         "200":
  *           description: "데이터 조회 성공"
@@ -228,9 +240,9 @@
 /**
  * @swagger
  * paths:
- *   /culture-arts:
+ *   /culture-arts/list:
  *     get:
- *       tags: [culture-art]
+ *       tags: [culture-arts]
  *       summary: "문화예술회관 필터링 검색"
  *       parameters:
  *         - name: city
@@ -399,14 +411,14 @@
 /**
  *  @swagger
  *  paths:
- *      /culture-arts:
+ *      /culture-arts/{ca_no}:
  *          get:
  *              tags: [culture-arts]
  *              summary: "문화예술회관 정보 출력"
  *              description: "서버에 ca_no을 전달해 GET 방식으로 정보 출력"
  *              parameters:
  *                  - name: ca_no
- *                    in: body
+ *                    in: path
  *                    description: "ca_no"
  *                    required: true
  *                    schema:
