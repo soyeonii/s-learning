@@ -37,7 +37,7 @@ module.exports = {
         return res.status(400).json("insert review!");
       }
       await Review.insert(review);
-      return res.status(200).json();
+      return res.status(201).json();
     } catch (err) {
       return res.status(404).json(err);
     }

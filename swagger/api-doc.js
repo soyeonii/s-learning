@@ -240,7 +240,7 @@
 /**
  * @swagger
  * paths:
- *   /culture-arts/list:
+ *   /culture-arts:
  *     get:
  *       tags: [culture-arts]
  *       summary: "문화예술회관 필터링 검색"
@@ -366,6 +366,25 @@
  *  @swagger
  *  paths:
  *      /reviews:
+ *          post:
+ *              summary: "리뷰 생성"
+ *              description: "서버에 리뷰 정보, 유저 ID, ca_no를 전달해 POST 방식으로 리뷰 생성"
+ *              tags: [reviews]
+ *              requestBody:
+ *                  required: true
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              example:
+ *                                  { "user_id": "아이디", "ca_no": "문화예술회관코드", "comment": "리뷰 내용" }
+ *              responses:
+ *                  "201":
+ *                      description: "리뷰 내용 미입력"
+ *                  "400":
+ *                      description: "리뷰 내용 미입력"
+ *                  "404":
+ *                      description: "서버 에러"
+ * 
  *          put:
  *              summary: "리뷰 내용 수정"
  *              description: "서버에 리뷰 정보, 유저 ID를 전달해 PUT 방식으로 리뷰 수정"
@@ -380,9 +399,9 @@
  *              responses:
  *                  "200":
  *                      description: "리뷰 수정 성공"
- *                  "404":
- *                      description: "리뷰 내용 미입력"
  *                  "400":
+ *                      description: "리뷰 내용 미입력"
+ *                  "404":
  *                      description: "리뷰 수정 오류"
  */
 
