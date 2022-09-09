@@ -37,6 +37,25 @@ module.exports = {
     ;`;
   },
 
+  updateUser: (original_id, change_id) => {
+    return `
+      UPDATE
+        users.users
+      SET
+        id = '${change_id}'
+      WHERE
+        id = '${original_id}'
+    ;`;
+  },
+
+  deleteUser: (id) => {
+    return `
+      DELETE FROM
+        users.users
+      WHERE
+        id = '${id}'
+    ;`;
+  },
 
   searchUserById: (id) => {
     return `
@@ -49,13 +68,12 @@ module.exports = {
     ;`;
   },
 
-
   searchCultureArt: (filter) => {
     // 해당 시 , 해당 구의 회관 리스트 반환
-    if(filter.city && filter.district) {
+    if (filter.city && filter.district) {
       return `
         SELECT
-          SN AS ca_no,
+          sn AS ca_no,
           ctprvn_nm,
           signgu_nm,
           instt_nm,
@@ -72,7 +90,15 @@ module.exports = {
           totar_mg,
           totar_yy,
           lo_val,
-          la_val
+          la_val,
+          (
+            SELECT
+              COUNT(*)
+            FROM
+              review.review
+            WHERE
+              ca_no = sn
+          ) AS review_cnt
         FROM
           culture_art.clturart_union_info
         WHERE
@@ -82,7 +108,7 @@ module.exports = {
     }
     // 해당 시의 구 리스트 반환
     // 시군구코드, 시군구 명칭 district_cd, district_nm 으로 반환
-    else if(filter.city) {
+    else if (filter.city) {
       return `
         SELECT
           signgu_cd AS district_cd,
@@ -97,7 +123,8 @@ module.exports = {
       ;`;
     }
     // 시 리스트 반환
-    else return `
+    else
+      return `
       SELECT
         ctprvn_cd AS city_cd,
         ctprvn_nm AS city_nm,
@@ -109,6 +136,16 @@ module.exports = {
     ;`;
   },
 
+  searchCultureArtByCaNo: (ca_no) => {
+    return `
+      SELECT
+        *
+      FROM
+        culture_art.clturart_union_info
+      WHERE
+        sn = '${ca_no}'
+    ;`;
+  },
 
   searchUserById: (id) => {
     return `
@@ -133,7 +170,6 @@ module.exports = {
     ;`;
   },
 
-
   insertReview: (review) => {
     return `
       INSERT INTO
@@ -153,4 +189,24 @@ module.exports = {
       )
     ;`;
   },
-}
+
+  updateReview: (review) => {
+    return `
+      UPDATE
+        review.review
+      SET
+        comment = '${review.comment}'
+      WHERE
+        rv_cd = '${review.rv_cd}'
+    ;`;
+  },
+
+  deleteReview: (rv_cd) => {
+    return `
+      DELETE FROM
+        review.review
+      WHERE
+        rv_cd = '${rv_cd}'
+    ;`;
+  },
+};
