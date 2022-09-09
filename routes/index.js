@@ -1,4 +1,3 @@
-require("dotenv").config({ path: __dirname + `/../.env` });
 const PORT = 3000;
 const cors = require('cors');
 const { swaggerUi, specs } = require("../swagger/swagger");

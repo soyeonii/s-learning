@@ -1,4 +1,5 @@
 const swaggerUi = require("swagger-ui-express")
+require("dotenv").config({ path: __dirname + `/../.env` });
 const swaggereJsdoc = require("swagger-jsdoc")
 
 const options = {
