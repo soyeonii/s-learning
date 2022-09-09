@@ -30,7 +30,8 @@ module.exports = {
     }
   },
 
-  logIn: async (user) => {
+
+  login: async (user) => {
     // 쿼리 내에서 비밀번호 검사 해야함 나중에 바꿀것
     getPasswordByIdSql = qry.getPasswordById(user.id);
     try {
@@ -60,9 +61,10 @@ module.exports = {
     }
   },
 
-  searchUser: async (id) => {
-    searchUserSql = qry.searchUser(id);
-    try {
+  
+  searchUserById: async (id) => {
+    searchUserSql = qry.searchUserById(id);
+    try{
       rows = await con.selectQuery(searchUserSql, pool);
       return rows;
     } catch (err) {
@@ -73,6 +75,7 @@ module.exports = {
   verify: (token) => {
     try {
       rows = jwtlogic.verify(token);
+      if (rows < 0) {throw(rows)};
       return rows;
     } catch (err) {
       throw err;

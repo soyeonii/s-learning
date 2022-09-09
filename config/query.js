@@ -26,13 +26,15 @@ module.exports = {
       (
         ID,
         Password,
-        Detail
+        Sex,
+        Age
       )
       VALUES
       (
         '${user.id}',
         '${user.password}',
-        '${user.detail}'
+        '${user.sex}',
+        '${user.age}'
       )
     ;`;
   },
@@ -70,14 +72,17 @@ module.exports = {
 
   searchCultureArt: (filter) => {
     // 해당 시 , 해당 구의 회관 리스트 반환
-    if (filter.city && filter.district) {
+    if(filter.district) {
       return `
         SELECT
-          sn AS ca_no,
-          ctprvn_nm,
-          signgu_nm,
+          SN AS ca_no,
+          ctprvn_nm AS city_nm,
+          signgu_nm AS district_nm,
           instt_nm,
           fclty_nm,
+          ehbll_nm,
+          eduspntd_nm,
+          cinema_nm,
           rprsntv_nm,
           dues_ct,
           dues_unit_cn,
@@ -102,7 +107,6 @@ module.exports = {
         FROM
           culture_art.clturart_union_info
         WHERE
-          ctprvn_cd = '${filter.city}' AND
           signgu_cd = '${filter.district}'
       ;`;
     }
@@ -128,7 +132,7 @@ module.exports = {
       SELECT
         ctprvn_cd AS city_cd,
         ctprvn_nm AS city_nm,
-        count(*) AS ca_cnt
+        count(*) AS ca_ct
       FROM
         culture_art.clturart_union_info
       GROUP BY
