@@ -53,7 +53,7 @@
  *         "500":
  *           description: "서버 에러"
  *     post:
- *       tags: [user]
+ *       tags: [users]
  *       summary: "유저 데이터 생성"
  *       parameters:
  *         - name: id
@@ -122,7 +122,7 @@
  *     get:
  *       summary: "id 값으로 유저 정보 출력"
  *       description: "서버에 데이터를 보내지 않고 Get 방식으로 요청"
- *       tags: [user]
+ *       tags: [users]
  *       responses:
  *         "200":
  *           description: "데이터 조회 성공"
