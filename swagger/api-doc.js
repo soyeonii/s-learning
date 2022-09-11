@@ -104,6 +104,18 @@
  *               summary: "32살"
  *           style: simple
  * 
+ *         - name: nationality
+ *           in: body
+ *           description: "국적 내:0, 외:1"
+ *           required: true
+ *           schema:
+ *             type: int
+ *           examples:
+ *             Sample:
+ *               value: "0"
+ *               summary: "내국인"
+ *           style: simple
+ * 
  *       responses:
  *         "201":
  *           description: "생성 성공"
