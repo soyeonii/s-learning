@@ -14,13 +14,28 @@ module.exports = {
     }
   },
 
-  // TODO : searchByCaNo 함수 생성
-  // ca_no get으로 받으면 해당 문화회관 정보 다 반환해주기
 
   /***** searchByCaNo 함수 *****/
   searchByCano: async (req, res) => {
     try {
       rows = await CultureArt.searchByCano(req.params.ca_no);
+      return res.status(200).json(rows);
+    } catch (err) {
+      return res.status(404).json(err);
+    }
+  },
+
+
+  /***** searchByFilter 함수 *****/
+  searchByFilter: async (req, res) => {
+    try {
+      const filter = {
+        age_area: req.query.age_area || 10,
+        sex: req.query.sex || 0,
+        nationality: req.query.nationality || 0,
+        list: req.params.list || 0,
+      };
+      rows = await CultureArt.searchByFilter(filter);
       return res.status(200).json(rows);
     } catch (err) {
       return res.status(404).json(err);

@@ -462,3 +462,73 @@
  *
  * 
  */
+
+/**
+ *  @swagger
+ *  paths:
+ *      /culture-arts/rank/{list}:
+ *          get:
+ *              tags: [culture-arts]
+ *              summary: "문화예술회관 상위 필터링 검색"
+ *              description: "서버에 age_area, sex, nationality 전달해 GET 방식으로 정보 출력"
+ *              parameters:
+ *                  - name: list
+ *                    in: path
+ *                    description: "리스트 번호 (단위 : 20) 1부터 시작"
+ *                    required: true
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample1:
+ *                            value: 1
+ *                            summary: "상위 1~20번째 회관 리스트"
+ *                        Sample2:
+ *                            value: 2
+ *                            summary: "상위 21~40번째 회관 리스트"
+ *                    style: simple
+ * 
+ *                  - name: age_area
+ *                    in: query
+ *                    description: "연령대"
+ *                    required: true
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample:
+ *                            value: 10
+ *                            summary: "10대"
+ *                    style: simple
+ * 
+ *                  - name: sex
+ *                    in: query
+ *                    description: "성별 남:0, 여:1"
+ *                    required: true
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample:
+ *                            value: 0
+ *                            summary: "남성"
+ *                    style: simple
+ * 
+ *                  - name: nationality
+ *                    in: query
+ *                    description: "국적 내:0, 외:1"
+ *                    required: true
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample:
+ *                            value: 0
+ *                            summary: "내국인"
+ *                    style: simple
+ * 
+ *              responses:
+ *                  "200":
+ *                      description: "문화예술회관 상위 정보 출력 성공"
+ *                  "404":
+ *                      description: "문화예술회관 정보 출력 오류"
+ *
+ *
+ * 
+ */

@@ -151,6 +151,22 @@ module.exports = {
     ;`;
   },
 
+  // 데이터가 없어서 users에서 빼오도록 했습니다
+  searchCAByFilter: (filter) => {
+    return `
+      SELECT
+        *
+      FROM
+        users.users
+      WHERE
+        agearea = ${filter.age_area} AND
+        sex = ${filter.sex} AND
+        nationality = ${filter.nationality}
+      LIMIT
+        ${(filter.list-1)*20}, ${(filter.list-1)*20+20}
+    ;`;
+  },
+
   searchUserById: (id) => {
     return `
       SELECT

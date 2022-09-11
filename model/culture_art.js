@@ -27,4 +27,14 @@ module.exports = {
       throw err;
     }
   },
+
+  searchByFilter: async (filter) => {
+    searchCAByFilterSQL = qry.searchCAByFilter(filter);
+    try {
+      rows = await con.selectQuery(searchCAByFilterSQL, pool);
+      return rows;
+    } catch (err) {
+      throw err;
+    }
+  },
 };
