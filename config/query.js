@@ -27,7 +27,8 @@ module.exports = {
         ID,
         Password,
         Sex,
-        Age
+        Age,
+        Nationality
       )
       VALUES
       (
@@ -35,6 +36,7 @@ module.exports = {
         '${user.password}',
         '${user.sex}',
         '${user.age}'
+        '${user.nationality}'
       )
     ;`;
   },
