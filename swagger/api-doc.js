@@ -526,7 +526,7 @@
  *  @swagger
  *  paths:
  *      /culture-arts/rank/{list}:
- *          get:
+ *          post:
  *              tags: [culture-arts]
  *              summary: "문화예술회관 상위 필터링 검색"
  *              description: "서버에 age_area, sex, nationality 전달해 GET 방식으로 정보 출력"
@@ -547,7 +547,7 @@
  *                    style: simple
  * 
  *                  - name: age_area
- *                    in: query
+ *                    in: body
  *                    description: "연령대"
  *                    required: true
  *                    schema:
@@ -559,7 +559,7 @@
  *                    style: simple
  * 
  *                  - name: sex
- *                    in: query
+ *                    in: body
  *                    description: "성별 남:0, 여:1"
  *                    required: true
  *                    schema:
@@ -571,7 +571,7 @@
  *                    style: simple
  * 
  *                  - name: nationality
- *                    in: query
+ *                    in: body
  *                    description: "국적 내:0, 외:1"
  *                    required: true
  *                    schema:

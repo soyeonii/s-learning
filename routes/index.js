@@ -42,7 +42,7 @@ app.post("/users/verify", User.verify);
 app.get("/culture-arts", CultureArt.search);
 
 // 문화예술회관 필터링 검색
-app.get("/culture-arts/rank/:list", CultureArt.searchByFilter);
+app.post("/culture-arts/rank/:list", CultureArt.searchByRank);
 
 // ca_no값으로 문화예술회관 정보 출력
 app.get("/culture-arts/:ca_no", CultureArt.searchByCano);

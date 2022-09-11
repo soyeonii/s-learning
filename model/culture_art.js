@@ -28,10 +28,10 @@ module.exports = {
     }
   },
 
-  searchByFilter: async (filter) => {
-    searchCAByFilterSQL = qry.searchCAByFilter(filter);
+  searchByRank: async (filter) => {
+    searchCAByRankSQL = qry.searchCAByRank(filter);
     try {
-      rows = await con.selectQuery(searchCAByFilterSQL, pool);
+      rows = await con.selectQuery(searchCAByRankSQL, pool);
       return rows;
     } catch (err) {
       throw err;

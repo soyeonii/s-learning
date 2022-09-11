@@ -153,19 +153,15 @@ module.exports = {
     ;`;
   },
 
-  // 데이터가 없어서 users에서 빼오도록 했습니다
-  searchCAByFilter: (filter) => {
+  searchCAByRank: (filter) => {
     return `
-      SELECT
-        *
-      FROM
-        users.users
-      WHERE
-        agearea = ${filter.age_area} AND
-        sex = ${filter.sex} AND
-        nationality = ${filter.nationality}
-      LIMIT
-        ${(filter.list-1)*8}, ${(filter.list-1)*8+8}
+      CALL
+        culture_art.analyse(
+          '${filter.nationality == 0? 'lcls' : 'otsd'}',
+          '${filter.age_area}',
+          '${filter.sex == 0? 'male' : 'female'}',
+          '${(filter.list-1)*8}'
+        )
     ;`;
   },
 
@@ -190,7 +186,7 @@ module.exports = {
       WHERE
         ca_no = ${ca.no}
       LIMIT
-        ${(ca.list-1)*8}, ${(ca.list-1)*8+8}
+        ${(ca.list-1)*8}, 8
     ;`;
   },
 
