@@ -47,9 +47,8 @@ app.get("/culture-arts/rank/:list", CultureArt.searchByFilter);
 // ca_no값으로 문화예술회관 정보 출력
 app.get("/culture-arts/:ca_no", CultureArt.searchByCano);
 
-// 리뷰 출력
-// app.post("/reviews/list", Review.searchByCaNo);
-app.get("/reviews", Review.searchByCaNo);
+// 리뷰 검색
+app.post("/reviews/list/:list", Review.searchByCaNo);
 
 // 리뷰 생성
 app.post("/reviews", Review.insert);

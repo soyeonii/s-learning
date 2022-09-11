@@ -442,6 +442,53 @@
 /**
  *  @swagger
  *  paths:
+ *      /reviews/list/{list}:
+ *          post:
+ *              summary: "해당 예술회관의 리뷰 검색"
+ *              description: "ca_no로 해당 예술회관에 달린 모든 리뷰 조회"
+ *              tags: [reviews]
+ *              parameters:
+ *                  - name: list
+ *                    in: path
+ *                    description: "리스트 번호 (단위 : 8) 1부터 시작"
+ *                    required: true
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample1:
+ *                            value: 1
+ *                            summary: "상위 1~8번째 리뷰 리스트"
+ *                        Sample2:
+ *                            value: 2
+ *                            summary: "상위 9~16번째 리뷰 리스트"
+ *                    style: simple
+ *              requestBody:
+ *                  required: true
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              example:
+ *                                  {"ca_no": "1"}
+ *              responses:
+ *                  "200":
+ *                      description: "리뷰 조회 성공"
+ *                      content:
+ *                          application/json:
+ *                              schema:
+ *                                  example:
+ *                                      {
+ *                                          { "rv_cd": "0001admin001", "user_id": "admin" , "ca_no": "1", "comment": "좋아요"},
+ *                                          { "rv_cd": "0001admin002", "user_id": "admin" , "ca_no": "1", "comment": "good!"}
+ *                                      }
+ *                  "400":
+ *                      description: "요청 오류"
+ *                  "404":
+ *                      description: "서버 오류"
+ */
+
+/**
+ *  @swagger
+ *  paths:
  *      /culture-arts/{ca_no}:
  *          get:
  *              tags: [culture-arts]
@@ -486,17 +533,17 @@
  *              parameters:
  *                  - name: list
  *                    in: path
- *                    description: "리스트 번호 (단위 : 20) 1부터 시작"
+ *                    description: "리스트 번호 (단위 : 8) 1부터 시작"
  *                    required: true
  *                    schema:
  *                        type: integer
  *                    examples:
  *                        Sample1:
  *                            value: 1
- *                            summary: "상위 1~20번째 회관 리스트"
+ *                            summary: "상위 1~8번째 회관 리스트"
  *                        Sample2:
  *                            value: 2
- *                            summary: "상위 21~40번째 회관 리스트"
+ *                            summary: "상위 9~16번째 회관 리스트"
  *                    style: simple
  * 
  *                  - name: age_area

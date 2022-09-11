@@ -165,7 +165,7 @@ module.exports = {
         sex = ${filter.sex} AND
         nationality = ${filter.nationality}
       LIMIT
-        ${(filter.list-1)*20}, ${(filter.list-1)*20+20}
+        ${(filter.list-1)*8}, ${(filter.list-1)*8+8}
     ;`;
   },
 
@@ -181,14 +181,16 @@ module.exports = {
   },
 
   // ca_no -> 문화예술회관 id number
-  searchReviewByCaNo: (ca_no) => {
+  searchReviewByCaNo: (ca) => {
     return `
       SELECT
         *
       FROM
         review.review
       WHERE
-        ca_no = '${ca_no}'
+        ca_no = ${ca.no}
+      LIMIT
+        ${(ca.list-1)*8}, ${(ca.list-1)*8+8}
     ;`;
   },
 

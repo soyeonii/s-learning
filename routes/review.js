@@ -5,9 +5,10 @@ module.exports = {
   searchByCaNo: async (req, res) => {
     try {
       const ca = {
-        no: req.body.ca_no || "",
+        no: parseInt(req.body.ca_no) || 0,
+        list: parseInt(req.params.list) || 1
       };
-      if (ca.no == "") {
+      if (ca.no == 0) {
         return res.status(400).json("insert ca_no!");
       }
       rows = await Review.searchByCaNo(ca);

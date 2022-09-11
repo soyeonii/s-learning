@@ -4,7 +4,7 @@ const pool = con.init();
 
 module.exports = {
   searchByCaNo: async (ca) => {
-    searchReviewByCaNoSql = qry.searchReviewByCaNo(ca.no);
+    searchReviewByCaNoSql = qry.searchReviewByCaNo(ca);
     try {
       rows = await con.selectQuery(searchReviewByCaNoSql, pool);
       return rows;
