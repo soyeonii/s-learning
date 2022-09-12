@@ -86,7 +86,7 @@ module.exports = {
   update: async (original_id, change_id) => {
     updateUserSql = qry.updateUser(original_id, change_id);
     try {
-      if (!(await con.selectQuery(updateUserSql, pool))) {
+      if (!(await con.transactionQuery(updateUserSql, pool))) {
         throw "User Update Failed";
       }
     } catch (err) {
@@ -98,7 +98,7 @@ module.exports = {
   delete: async (id) => {
     deleteUserSql = qry.deleteUser(id);
     try {
-      await con.selectQuery(deleteUserSql, pool);
+      await con.transactionQuery(deleteUserSql, pool);
     } catch (err) {
       throw err;
     }
