@@ -6,7 +6,7 @@ module.exports = {
     try {
       const ca = {
         no: parseInt(req.body.ca_no) || 0,
-        list: parseInt(req.params.list) || 1
+        list: parseInt(req.params.list) || 1,
       };
       if (ca.no == 0) {
         return res.status(400).json("insert ca_no!");
@@ -50,8 +50,6 @@ module.exports = {
     try {
       const review = {
         rv_cd: req.body.rv_cd || "",
-        user_id: req.body.user_id || "",
-        ca_no: req.body.ca_no || "",
         comment: req.body.comment || "",
       };
       const user_id = req.body.user_id;
