@@ -42,13 +42,13 @@ app.post("/users/verify", User.verify);
 app.get("/culture-arts", CultureArt.search);
 
 // 문화예술회관 필터링 검색
-app.post("/culture-arts/rank/:list", CultureArt.searchByRank);
+app.get("/culture-arts/rank/:list", CultureArt.searchByRank);
 
 // ca_no값으로 문화예술회관 정보 출력
 app.get("/culture-arts/:ca_no", CultureArt.searchByCano);
 
 // 리뷰 검색
-app.post("/reviews/list/:list", Review.searchByCaNo);
+app.get("/reviews/:ca_no/:list", Review.searchByCaNo);
 
 // 리뷰 생성
 app.post("/reviews", Review.insert);

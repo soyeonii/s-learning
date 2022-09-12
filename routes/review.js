@@ -5,7 +5,7 @@ module.exports = {
   searchByCaNo: async (req, res) => {
     try {
       const ca = {
-        no: parseInt(req.body.ca_no) || 0,
+        no: parseInt(req.params.ca_no) || 0,
         list: parseInt(req.params.list) || 1,
       };
       if (ca.no == 0) {

@@ -30,9 +30,9 @@ module.exports = {
   searchByRank: async (req, res) => {
     try {
       const filter = {
-        age_area: req.body.age_area || 10,
-        sex: req.body.sex || 0,
-        nationality: req.body.nationality || 0,
+        age_area: req.query.age_area || 10,
+        sex: req.query.sex || 0,
+        nationality: req.query.nationality || 0,
         list: req.params.list || 1,
       };
       rows = await CultureArt.searchByRank(filter);

@@ -442,12 +442,23 @@
 /**
  *  @swagger
  *  paths:
- *      /reviews/list/{list}:
- *          post:
+ *      /reviews/{ca_no}/{list}:
+ *          get:
  *              summary: "해당 예술회관의 리뷰 검색"
  *              description: "ca_no로 해당 예술회관에 달린 모든 리뷰 조회"
  *              tags: [reviews]
  *              parameters:
+ *                  - name: ca_no
+ *                    in: path
+ *                    description: "ca_no"
+ *                    required: true
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample1:
+ *                            value: 1
+ *                            summary: "1번 예술회관"
+ *                    style: simple
  *                  - name: list
  *                    in: path
  *                    description: "리스트 번호 (단위 : 8) 1부터 시작"
@@ -462,13 +473,6 @@
  *                            value: 2
  *                            summary: "상위 9~16번째 리뷰 리스트"
  *                    style: simple
- *              requestBody:
- *                  required: true
- *                  content:
- *                      application/json:
- *                          schema:
- *                              example:
- *                                  {"ca_no": "1"}
  *              responses:
  *                  "200":
  *                      description: "리뷰 조회 성공"
@@ -526,7 +530,7 @@
  *  @swagger
  *  paths:
  *      /culture-arts/rank/{list}:
- *          post:
+ *          get:
  *              tags: [culture-arts]
  *              summary: "문화예술회관 상위 필터링 검색"
  *              description: "서버에 age_area, sex, nationality 전달해 GET 방식으로 정보 출력"
@@ -547,9 +551,9 @@
  *                    style: simple
  * 
  *                  - name: age_area
- *                    in: body
+ *                    in: query
  *                    description: "연령대"
- *                    required: true
+ *                    required: false
  *                    schema:
  *                        type: integer
  *                    examples:
@@ -559,9 +563,9 @@
  *                    style: simple
  * 
  *                  - name: sex
- *                    in: body
+ *                    in: query
  *                    description: "성별 남:0, 여:1"
- *                    required: true
+ *                    required: false
  *                    schema:
  *                        type: integer
  *                    examples:
@@ -571,9 +575,9 @@
  *                    style: simple
  * 
  *                  - name: nationality
- *                    in: body
+ *                    in: query
  *                    description: "국적 내:0, 외:1"
- *                    required: true
+ *                    required: false
  *                    schema:
  *                        type: integer
  *                    examples:
