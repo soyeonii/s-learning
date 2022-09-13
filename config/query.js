@@ -72,49 +72,9 @@ module.exports = {
     ;`;
   },
 
-  searchCultureArt: (filter) => {
-    // 해당 시 , 해당 구의 회관 리스트 반환
-    if(filter.district) {
-      return `
-        SELECT
-          SN AS ca_no,
-          ctprvn_nm AS city_nm,
-          signgu_nm AS district_nm,
-          instt_nm,
-          fclty_nm,
-          ehbll_nm,
-          eduspntd_nm,
-          cinema_nm,
-          rprsntv_nm,
-          dues_ct,
-          dues_unit_cn,
-          addr,
-          zip_no,
-          tel_no,
-          fax_no,
-          hmpg_addr,
-          sbscrb_yy,
-          totar_mg,
-          totar_yy,
-          lo_val,
-          la_val,
-          (
-            SELECT
-              COUNT(*)
-            FROM
-              review.review
-            WHERE
-              ca_no = sn
-          ) AS review_cnt
-        FROM
-          culture_art.clturart_union_info
-        WHERE
-          signgu_cd = '${filter.district}'
-      ;`;
-    }
-    // 해당 시의 구 리스트 반환
-    // 시군구코드, 시군구 명칭 district_cd, district_nm 으로 반환
-    else if (filter.city) {
+  searchCAByCity: (filter) => {
+    // 구코드, 구명칭 district_cd, district_nm 으로 반환
+    if (filter.city) {
       return `
         SELECT
           signgu_cd AS district_cd,
@@ -139,6 +99,50 @@ module.exports = {
         culture_art.clturart_union_info
       GROUP BY
         ctprvn_nm
+    ;`;
+  },
+
+
+  searchCAByDistrict: (ca) => {
+    // 해당 시 , 해당 구의 회관 리스트 반환 //기본 이미지 url 입니다 나중에 서버에 올려서 전송
+    return `
+      SELECT
+        'http://avatars.githubusercontent.com/u/53700256?v=4' as img_url,
+        SN AS ca_no,
+        ctprvn_nm AS city_nm,
+        signgu_nm AS district_nm,
+        instt_nm,
+        fclty_nm,
+        ehbll_nm,
+        eduspntd_nm,
+        cinema_nm,
+        rprsntv_nm,
+        dues_ct,
+        dues_unit_cn,
+        addr,
+        zip_no,
+        tel_no,
+        fax_no,
+        hmpg_addr,
+        sbscrb_yy,
+        totar_mg,
+        totar_yy,
+        lo_val,
+        la_val,
+        (
+          SELECT
+            COUNT(*)
+          FROM
+            review.review
+          WHERE
+            ca_no = sn
+        ) AS review_cnt
+      FROM
+        culture_art.clturart_union_info
+      WHERE
+        signgu_cd = '${ca.district_cd}'
+      LIMIT
+        ${(ca.list-1)*8}, 8
     ;`;
   },
 
