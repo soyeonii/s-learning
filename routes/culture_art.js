@@ -14,6 +14,7 @@ module.exports = {
     }
   },
 
+  
   searchByDistrict: async (req, res) => {
     try {
       const ca = {
@@ -33,7 +34,6 @@ module.exports = {
   },
 
 
-  /***** searchByCaNo 함수 *****/
   searchByCano: async (req, res) => {
     try {
       rows = await CultureArt.searchByCano(req.params.ca_no);
@@ -44,7 +44,6 @@ module.exports = {
   },
 
 
-  /***** searchByFilter 함수 *****/
   searchByRank: async (req, res) => {
     try {
       const filter = {
