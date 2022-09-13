@@ -252,29 +252,14 @@
 /**
  * @swagger
  * paths:
- *   /culture-arts:
+ *   /culture-arts/city:
  *     get:
  *       tags: [culture-arts]
- *       summary: "시 코드로 문화예술회관이 있는 구와 개수 검색"
- *       parameters:
- *         - name: city
- *           in: query
- *           description: "city code"
- *           required: false
- *           schema:
- *             type: string
- *           examples:
- *             Sample1:
- *               value: ""
- *               summary: "비우기"
- *             Sample2:
- *               value: "11"
- *               summary: "서울"
- *           style: simple
+ *       summary: "시 코드 검색"
  * 
  *       responses:
  *         "200":
- *           description: "아무 것도 보내지 않을 시 모든 시와 각 시에 존재하는 예술회관의 수 반환, city를 보낼 시 해당 시의 각 구마다 존재하는 예술회관의 수 반환"
+ *           description: "모든 시와 각 시에 존재하는 예술회관의 수 반환"
  *           content:
  *             application/json:
  *               schema:
@@ -284,28 +269,7 @@
  *                   {
  *                     "city_cd": "시 코드",
  *                     "city_nm": "시 이름",
- *                     "district_cd": "구 코드",
- *                     "district_nm": "구 이름",
- *                     "ca_ct": "각 구역 단위 예술회관 수",
- *                     "ca_no": "예술회관 코드",
- *                     "instt_nm": "운영기관명",
- *                     "fclty_nm": "시설명",
- *                     "ehbll_nm": "전시장 유무 (Y or N)",
- *                     "eduspntd_nm": "교육장 유무 (Y or N)",
- *                     "cinema_nm": "영화관 유무 (Y or N)",
- *                     "rprsntv_nm": "대표자",
- *                     "dues_ct": "회비 (int)",
- *                     "dues_unit_cn": "회비 단위 (string)",
- *                     "addr": "주소",
- *                     "zip_no": "우편번호",
- *                     "tel_no": "전화번호",
- *                     "fax_no": "대표팩스",
- *                     "hmpg_addr": "홈페이지",
- *                     "sbscrb_yy": "개관년도",
- *                     "totar_mg": "연면적 (float)",
- *                     "totar_yy": "면적단위 (string) ex: (m²)",
- *                     "lo_val": "경도 (float)",
- *                     "la_val": "위도 (float)"
+ *                     "ca_ct": "해당 시에 있는 문화예술회관 수"
  *                   }
  *                ]
  *         "500":
@@ -316,12 +280,54 @@
 /**
  * @swagger
  * paths:
- *   /culture-arts/{district_cd}/{list}:
+ *   /culture-arts/city/{city_cd}:
+ *     get:
+ *       tags: [culture-arts]
+ *       summary: "시 코드로 구 검색"
+ *       parameters:
+ *         - name: city_cd
+ *           in: path
+ *           description: "city code"
+ *           required: true
+ *           schema:
+ *             type: string
+ *           examples:
+ *             Sample1:
+ *               value: "11"
+ *               summary: "서울"
+ *           style: simple
+ * 
+ *       responses:
+ *         "200":
+ *           description: "city code를 보낼 시 해당 시의 각 구마다 존재하는 예술회관의 수 반환"
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: string
+ *               example:
+ *                 [
+ *                   {
+ *                     "district_cd": "구 코드",
+ *                     "district_nm": "구 이름",
+ *                     "ca_ct": "해당 시에 있는 문화예술회관 수"
+ *                   }
+ *                ]
+ *         "400":
+ *           description: "요청 에러"
+ *         "500":
+ *           description: "서버 에러"
+ *
+ */
+
+/**
+ * @swagger
+ * paths:
+ *   /culture-arts/district/{district_cd}/{list}:
  *     get:
  *       tags: [culture-arts]
  *       summary: "문화예술회관 구 코드로 검색"
  *       parameters:
- *         - name: district
+ *         - name: district_cd
  *           in: path
  *           description: "district code"
  *           required: true

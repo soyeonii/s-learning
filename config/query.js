@@ -72,26 +72,10 @@ module.exports = {
     ;`;
   },
 
-  searchCAByCity: (filter) => {
-    // 구코드, 구명칭 district_cd, district_nm 으로 반환
-    if (filter.city) {
-      return `
-        SELECT
-          img_url,
-          signgu_cd AS district_cd,
-          signgu_nm AS district_nm,
-          count(*) AS ca_cnt
-        FROM
-          culture_art.clturart_union_info
-        WHERE
-          ctprvn_cd = '${filter.city}'
-        GROUP BY
-          signgu_nm
-      ;`;
-    }
-    // 시 리스트 반환
-    else
-      return `
+
+  searchCity: () => {
+    // 전체 시 코드 반환
+    return `
       SELECT
         ctprvn_cd AS city_cd,
         ctprvn_nm AS city_nm,
@@ -100,6 +84,25 @@ module.exports = {
         culture_art.clturart_union_info
       GROUP BY
         ctprvn_nm
+    ;`;
+  },
+
+
+  
+  searchDistrictByCity: (ca) => {
+    // 구코드, 구명칭 district_cd, district_nm 으로 반환
+    return `
+      SELECT
+        img_url,
+        signgu_cd AS district_cd,
+        signgu_nm AS district_nm,
+        count(*) AS ca_cnt
+      FROM
+        culture_art.clturart_union_info
+      WHERE
+        ctprvn_cd = '${ca.city_cd}'
+      GROUP BY
+        signgu_nm
     ;`;
   },
 

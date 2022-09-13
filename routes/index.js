@@ -38,11 +38,14 @@ app.post("/users/login", User.login);
 // 세션토큰 검사
 app.post("/users/verify", User.verify);
 
+// 모든 시 검색
+app.get("/culture-arts/city", CultureArt.searchCity);
+
 // 문화예술회관 시 코드로 검색
-app.get("/culture-arts", CultureArt.searchByCity);
+app.get("/culture-arts/city/:city_cd", CultureArt.searchDistrictByCity);
 
 // 문화예술회관 구 코드로 검색
-app.get("/culture-arts/:district_cd/:list", CultureArt.searchByDistrict);
+app.get("/culture-arts/district/:district_cd/:list", CultureArt.searchByDistrict);
 
 // 문화예술회관 필터링 검색
 app.get("/culture-arts/rank/:list", CultureArt.searchByRank);

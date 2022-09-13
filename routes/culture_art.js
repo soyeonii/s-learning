@@ -5,9 +5,27 @@ module.exports = {
   // city(도시코드), district(구코드) 받음
   // url:port/culture-arts?city=11&district=11050 형식으로 city, district 전달
   
-  searchByCity: async (req, res) => {
+  searchCity: async (req, res) => {
     try {
-      rows = await CultureArt.searchByCity(req.query);
+      rows = await CultureArt.searchCity();
+      return res.status(200).json(rows);
+    } catch (err) {
+      return res.status(404).json(err);
+    }
+  },
+
+
+  searchDistrictByCity: async (req, res) => {
+    try {
+      const ca = {
+        city_cd: req.params.city_cd
+      };
+      if (
+        ca.city_cd == ""
+      ) {
+        return res.status(400).json("insert city_cd!");
+      }
+      rows = await CultureArt.searchDistrictByCity(ca);
       return res.status(200).json(rows);
     } catch (err) {
       return res.status(404).json(err);

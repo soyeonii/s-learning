@@ -8,15 +8,27 @@ module.exports = {
   // TODO : searchCultureArt 쿼리 변경
   // 쿼리에서 내뱉는 ca_no랑 review 테이블의 ca_no를 교집합해서
   // 해당 ca_no 에 있는 review의 개수까지 추가로 보내주기
-  searchByCity: async (filter) => {
-    searchCAByCitySql = qry.searchCAByCity(filter);
+  searchCity: async () => {
+    searchCitySql = qry.searchCity();
     try {
-      rows = await con.selectQuery(searchCAByCitySql, pool);
+      rows = await con.selectQuery(searchCitySql, pool);
       return rows;
     } catch (err) {
       throw err;
     }
   },
+
+
+  searchDistrictByCity: async (ca) => {
+    searchDistrictByCitySql = qry.searchDistrictByCity(ca);
+    try {
+      rows = await con.selectQuery(searchDistrictByCitySql, pool);
+      return rows;
+    } catch (err) {
+      throw err;
+    }
+  },
+
 
   searchByDistrict: async (ca) => {
     searchCAByDistrictSql = qry.searchCAByDistrict(ca);
