@@ -77,6 +77,7 @@ module.exports = {
     if (filter.city) {
       return `
         SELECT
+          img_url,
           signgu_cd AS district_cd,
           signgu_nm AS district_nm,
           count(*) AS ca_cnt
@@ -104,10 +105,9 @@ module.exports = {
 
 
   searchCAByDistrict: (ca) => {
-    // 해당 시 , 해당 구의 회관 리스트 반환 //기본 이미지 url 입니다 나중에 서버에 올려서 전송
+    // 해당 구의 회관 리스트 반환
     return `
       SELECT
-        img_url,
         SN AS ca_no,
         ctprvn_nm AS city_nm,
         signgu_nm AS district_nm,
