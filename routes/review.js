@@ -24,13 +24,11 @@ module.exports = {
   insert: async (req, res) => {
     try {
       const review = {
-        rv_cd: req.body.rv_cd || "",
         user_id: req.body.user_id || "",
         ca_no: req.body.ca_no || "",
         comment: req.body.comment || "",
       };
       if (
-        review.rv_cd == "" ||
         review.user_id == "" ||
         review.ca_no == "" ||
         review.comment == ""
