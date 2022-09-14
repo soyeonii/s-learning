@@ -35,20 +35,20 @@ module.exports = {
         '${user.id}',
         '${user.password}',
         '${user.sex}',
-        '${user.age}'
+        '${user.age}',
         '${user.nationality}'
       )
     ;`;
   },
 
-  updateUser: (original_id, change_id) => {
+  updateUser: (user) => {
     return `
       UPDATE
         users.users
       SET
-        id = '${change_id}'
+        id = '${user.change_id}'
       WHERE
-        id = '${original_id}'
+        id = '${user.original_id}'
     ;`;
   },
 
@@ -221,17 +221,8 @@ module.exports = {
 
   insertReview: (review) => {
     return `
-      INSERT INTO
-        review.review
-        (
-          rv_cd,
-          user_id,
-          ca_no,
-          comment
-        )
-      VALUES
-        (
-          CALL review.rv_cd_counting('${review.user_id}', '${review.ca_no}', '${review.comment}'),
+      CALL
+        review.rv_cd_counting(
           '${review.user_id}',
           '${review.ca_no}',
           '${review.comment}'

@@ -1,3 +1,4 @@
+const review = require("../model/review");
 const Review = require("../model/review");
 
 module.exports = {
@@ -47,15 +48,14 @@ module.exports = {
   update: async (req, res) => {
     try {
       const review = {
-        rv_cd: req.body.rv_cd || "",
+        rv_cd: req.params.rv_cd,
         comment: req.body.comment || "",
       };
-      const user_id = req.body.user_id;
       if (review.comment == "") {
         return res.status(400).json("update review!");
       }
-      await Review.update(review, user_id);
-      return res.status(200).json();
+      await Review.update(review);
+      return res.status(204).json();
     } catch (err) {
       return res.status(404).json(err);
     }
@@ -64,9 +64,10 @@ module.exports = {
   // 리뷰 삭제
   delete: async (req, res) => {
     try {
-      const rv_cd = req.body.rv_cd;
-      const user_id = req.body.user_id;
-      await Review.delete(rv_cd, user_id);
+      const review = {
+        rv_cd: req.params.rv_cd
+      }
+      await Review.delete(review);
       return res.status(200).json();
     } catch (err) {
       return res.status(404).json(err);

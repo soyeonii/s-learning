@@ -82,13 +82,16 @@ module.exports = {
   // 유저 ID 수정
   update: async (req, res) => {
     try {
-      const original_id = req.body.original_id;
-      const change_id = req.body.change_id;
-      if (change_id == "") {
-        return res.status(400).json("update user!");
+      const user = {
+        original_id: req.params.original_id,
+        password: req.body.password || "",
+        change_id: req.body.change_id || ""
       }
-      await User.update(original_id, change_id);
-      return res.status(200).json();
+      if(user.change_id == "") {
+        return res.status(400).json("insert value!");
+      }
+      await User.update(user);
+      return res.status(204).json();
     } catch (err) {
       return res.status(404).json(err);
     }
@@ -97,8 +100,10 @@ module.exports = {
   // 유저 회원탈퇴
   delete: async (req, res) => {
     try {
-      const id = req.body.id;
-      await User.delete(id);
+      const user = {
+        id: req.params.id
+      }
+      await User.delete(user);
       return res.status(200).json();
     } catch (err) {
       return res.status(404).json(err);

@@ -83,11 +83,23 @@ module.exports = {
   },
 
   //TODO : update(id 변경, 중복검사) 함수
-  update: async (original_id, change_id) => {
-    updateUserSql = qry.updateUser(original_id, change_id);
+  update: async (user) => {
     try {
-      if (!(await con.transactionQuery(updateUserSql, pool))) {
-        throw "User Update Failed";
+      // 쿼리 내에서 비밀번호 검사 해야함 나중에 바꿀것
+      getPasswordByIdSql = qry.getPasswordById(user.original_id);
+      rows = await con.selectQuery(getPasswordByIdSql, pool);
+      // password 가 틀리다면 throw로 err값 던진 후 reject 호출
+      if (Object.keys(rows).length == 0) {
+        throw "the id doesn't exist!";
+
+      } else if (rows[0]["Password"] != user.password) {
+        throw "password error!";
+
+      } else {
+        updateUserSql = qry.updateUser(user);
+        if (!(await con.transactionQuery(updateUserSql, pool))) {
+          throw "User Update Failed";
+        }
       }
     } catch (err) {
       throw err;
@@ -95,8 +107,8 @@ module.exports = {
   },
 
   //TODO : delete(id) 함수
-  delete: async (id) => {
-    deleteUserSql = qry.deleteUser(id);
+  delete: async (user) => {
+    deleteUserSql = qry.deleteUser(user.id);
     try {
       await con.transactionQuery(deleteUserSql, pool);
     } catch (err) {

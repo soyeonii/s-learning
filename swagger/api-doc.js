@@ -55,65 +55,19 @@
  *     post:
  *       tags: [users]
  *       summary: "유저 데이터 생성"
- *       parameters:
- *         - name: id
- *           in: body
- *           description: 사용자 아이디 (primary key)
- *           required: true
- *           schema:
- *             type: string
- *           examples:
- *             Sample:
- *               value: "kw8384"
- *               summary: "id"
- *           style: simple
- * 
- *         - name: password
- *           in: body
- *           description: "사용자 비밀번호 (추후에 없애도 될듯)"
- *           required: true
- *           schema:
- *             type: string
- *           examples:
- *             Sample:
- *               value: "qwe123!"
- *               summary: "password"
- *           style: simple
- * 
- *         - name: sex
- *           in: body
- *           description: "사용자 성별 남:0, 여1"
- *           required: true
- *           schema:
- *             type: int
- *           examples:
- *             Sample:
- *               value: "1"
- *               summary: "여성"
- *           style: simple
- * 
- *         - name: age
- *           in: body
- *           description: "사용자 연령"
- *           required: true
- *           schema:
- *             type: int
- *           examples:
- *             Sample:
- *               value: "32"
- *               summary: "32살"
- *           style: simple
- * 
- *         - name: nationality
- *           in: body
- *           description: "국적 내:0, 외:1"
- *           required: true
- *           schema:
- *             type: int
- *           examples:
- *             Sample:
- *               value: "0"
- *               summary: "내국인"
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               example:
+ *                 {
+ *                   "id": "newid",
+ *                   "password": "1234",
+ *                   "sex": "0",
+ *                   "age": "25",
+ *                   "nationality": "0",
+ *                 }
  *           style: simple
  * 
  *       responses:
@@ -403,20 +357,31 @@
 /**
  *  @swagger
  *  paths:
- *      /users:
+ *      /users/{original_id}:
  *          put:
  *              summary: "유저 정보 수정"
  *              description: "서버에 현재 아이디, 변경할 아이디를 전달해 PUT 방식으로 정보 수정"
  *              tags: [users]
+ *              parameters:
+ *                - name: original_id
+ *                  in: path
+ *                  description: "원래 아이디"
+ *                  required: true
+ *                  schema:
+ *                    type: string
+ *                  examples:
+ *                    Sample1:
+ *                      value: "knox"
+ *                      summary: "knox"
  *              requestBody:
  *                  required: true
  *                  content:
  *                      application/json:
  *                          schema:
  *                              example:
- *                                  { "original_id": "1111", "change_id": "1234" }
+ *                                  { "password": "1111", "change_id": "newid" }
  *              responses:
- *                  "200":
+ *                  "204":
  *                      description: "유저 ID 수정 성공"
  *                  "404":
  *                      description: "변경할 ID 미입력"
@@ -427,18 +392,23 @@
 /**
  *  @swagger
  *  paths:
- *      /users:
+ *      /users/{id}:
  *          delete:
  *              summary: "유저 정보 삭제"
  *              description: "서버에 로그인 중인 아이디를 전달해 DELETE 방식으로 정보 삭제"
  *              tags: [users]
- *              requestBody:
+ *              parameters:
+ *                - name: id
+ *                  in: path
+ *                  description: "user id (pk)"
  *                  required: true
- *                  content:
- *                      application/json:
- *                          schema:
- *                              example:
- *                                  { "id": "1111" }
+ *                  schema:
+ *                    type: string
+ *                  examples:
+ *                    Sample1:
+ *                      value: "userid1234"
+ *                      summary: "id"
+ * 
  *              responses:
  *                  "200":
  *                      description: "유저 정보 삭제 성공"
@@ -469,19 +439,37 @@
  *                  "404":
  *                      description: "서버 에러"
  * 
- *          put:
+ * */
+
+/**
+ *  @swagger
+ *  paths:
+ *      /reviews/{rv_cd}:
+ *           put:
  *              summary: "리뷰 내용 수정"
- *              description: "서버에 리뷰 정보, 유저 ID를 전달해 PUT 방식으로 리뷰 수정"
+ *              description: "서버에 리뷰 code와 새로운 리뷰 내용 전송, PUT 방식으로 리뷰 수정"
  *              tags: [reviews]
+ *              parameters:
+ *                - name: rv_cd
+ *                  in: path
+ *                  description: "review code (pk)"
+ *                  required: true
+ *                  schema:
+ *                    type: string
+ *                  examples:
+ *                    Sample1:
+ *                      value: "0001admin001"
+ *                      summary: "rv_cd"
+ *              
  *              requestBody:
  *                  required: true
  *                  content:
  *                      application/json:
  *                          schema:
  *                              example:
- *                                  { "rv_cd": "0001admin001", "user_id": "admin", "ca_no": 1, "comment": "My first comment" }
+ *                                  {"comment": "changed comment" }
  *              responses:
- *                  "200":
+ *                  "204":
  *                      description: "리뷰 수정 성공"
  *                  "400":
  *                      description: "리뷰 내용 미입력"
@@ -492,22 +480,27 @@
 /**
  *  @swagger
  *  paths:
- *      /reviews:
+ *      /reviews/{rv_cd}:
  *          delete:
  *              summary: "리뷰 삭제"
- *              description: "서버에 rv_cd, 유저 ID를 전달해 DELETE 방식으로 리뷰 삭제"
+ *              description: "서버에 rv_cd를 전달해 DELETE 방식으로 리뷰 삭제"
  *              tags: [reviews]
- *              requestBody:
+ *              parameters:
+ *                - name: rv_cd
+ *                  in: path
+ *                  description: "review code (pk)"
  *                  required: true
- *                  content:
- *                      application/json:
- *                          schema:
- *                              example:
- *                                  { "rv_cd": "0001admin001", "user_id": "admin" }
+ *                  schema:
+ *                    type: string
+ *                  examples:
+ *                    Sample1:
+ *                      value: "0001admin001"
+ *                      summary: "rv_cd"
+ *              
  *              responses:
  *                  "200":
  *                      description: "리뷰 삭제 성공"
- *                  "400":
+ *                  "404":
  *                      description: "리뷰 삭제 오류"
  */
 

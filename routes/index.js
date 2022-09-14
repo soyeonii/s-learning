@@ -24,10 +24,10 @@ app.get("/users", User.searchAll);
 app.post("/users", User.insert);
 
 // 유저 수정
-app.put("/users", User.update);
+app.put("/users/:original_id", User.update);
 
 // 유저 삭제
-app.delete("/users", User.delete);
+app.delete("/users/:id", User.delete);
 
 // id값으로 유저 정보 출력
 app.get("/users/:id", User.searchById);
@@ -63,10 +63,10 @@ app.get("/reviews/:ca_no/:list", Review.searchByCaNo);
 app.post("/reviews", Review.insert);
 
 // 리뷰 수정
-app.put("/reviews", Review.update);
+app.put("/reviews/:rv_cd", Review.update);
 
 // 리뷰 삭제
-app.delete("/reviews", Review.delete);
+app.delete("/reviews/:rv_cd", Review.delete);
 
 app.listen(PORT, "0.0.0.0", () =>
   console.log(`server has been running... http://localhost:${PORT}/`)
