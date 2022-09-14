@@ -4,7 +4,7 @@ module.exports = {
   // 문화예술회관 필터링 검색
   // city(도시코드), district(구코드) 받음
   // url:port/culture-arts?city=11&district=11050 형식으로 city, district 전달
-  
+
   searchCity: async (req, res) => {
     try {
       rows = await CultureArt.searchCity();
@@ -14,15 +14,12 @@ module.exports = {
     }
   },
 
-
   searchDistrictByCity: async (req, res) => {
     try {
       const ca = {
-        city_cd: req.params.city_cd
+        city_cd: req.params.city_cd,
       };
-      if (
-        ca.city_cd == ""
-      ) {
+      if (ca.city_cd == "") {
         return res.status(400).json("insert city_cd!");
       }
       rows = await CultureArt.searchDistrictByCity(ca);
@@ -32,16 +29,13 @@ module.exports = {
     }
   },
 
-  
   searchByDistrict: async (req, res) => {
     try {
       const ca = {
         district_cd: req.params.district_cd || "",
         list: req.params.list || 1,
       };
-      if (
-        ca.district_cd == ""
-      ) {
+      if (ca.district_cd == "") {
         return res.status(400).json("insert district_cd!");
       }
       rows = await CultureArt.searchByDistrict(ca);
@@ -51,7 +45,6 @@ module.exports = {
     }
   },
 
-
   searchByCano: async (req, res) => {
     try {
       rows = await CultureArt.searchByCano(req.params.ca_no);
@@ -60,7 +53,6 @@ module.exports = {
       return res.status(404).json(err);
     }
   },
-
 
   searchByRank: async (req, res) => {
     try {
@@ -76,4 +68,19 @@ module.exports = {
       return res.status(404).json(err);
     }
   },
+
+  searchByDistance: async (req, res) =>  {
+    try {
+      const filter = {
+        la: req.query.la || 0,
+        lo: req.query.lo || 0,
+        distance: req.query.distance || 0,
+        limit_start: req.query.limit_start || 1,
+      };
+      rows = await CultureArt.searchByRank(filter);
+      return res.status(200).json(rows);
+    } catch (err) {
+      return res.status(404).json(err);
+    }
+  }
 };

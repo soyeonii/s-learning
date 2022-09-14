@@ -667,3 +667,73 @@
  *
  * 
  */
+
+/**
+ *  @swagger
+ *  paths:
+ *      /culture-arts/distance/{list}:
+ *          get:
+ *              tags: [culture-arts]
+ *              summary: "문화예술회관 위치 반경 필터링 검색"
+ *              description: "서버에 la, lo, distance, limit_start 전달해 GET 방식으로 정보 출력"
+ *              parameters:
+ *                  - name: la
+ *                    in: query
+ *                    description: "위도"
+ *                    required: true
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample1:
+ *                            value: 1004
+ *                            summary: "위도 : 1004"
+ *                    style: simple
+ * 
+ *                  - name: lo
+ *                    in: query
+ *                    description: "경도"
+ *                    required: true
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample:
+ *                            value: 1004
+ *                            summary: "경도 : 1004"
+ *                    style: simple
+ * 
+ *                  - name: distance
+ *                    in: query
+ *                    description: "최대 반경 제한"
+ *                    required: true
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample:
+ *                            value: 10000
+ *                            summary: "최대 반경 제한 : 10000"
+ *                    style: simple
+ * 
+ *                  - name: list_start
+ *                    in: path
+ *                    description: "리스트 번호 (단위 : 8) 1부터 시작"
+ *                    required: true
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample1:
+ *                            value: 1
+ *                            summary: "상위 1~8번째 회관 리스트"
+ *                        Sample2:
+ *                            value: 2
+ *                            summary: "상위 9~16번째 회관 리스트"
+ *                    style: simple
+ * 
+ *              responses:
+ *                  "200":
+ *                      description: "문화예술회관 상위 정보 출력 성공"
+ *                  "404":
+ *                      description: "문화예술회관 정보 출력 오류"
+ *
+ *
+ * 
+ */

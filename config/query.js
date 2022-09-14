@@ -172,6 +172,28 @@ module.exports = {
     ;`;
   },
 
+  searchCAByDistance: (filter) => {
+    return `
+    SELECT
+      *
+    FROM
+      culture_art.clturart_union_info
+    WHERE
+      sn = (SELECT
+              sn
+            FROM
+              (CALL 
+                culture_art.la_lo_distance(
+                  '${filter.la}',
+                  '${filter.lo}',
+                  '${filter.distance}',
+                  '${(filter.limit_start-1)*8}'
+                )
+              )
+            )
+    ;`;
+  },
+
   searchUserById: (id) => {
     return `
       SELECT
@@ -201,19 +223,19 @@ module.exports = {
     return `
       INSERT INTO
         review.review
-      (
-        rv_cd,
-        user_id,
-        ca_no,
-        comment
-      )
+        (
+          rv_cd,
+          user_id,
+          ca_no,
+          comment
+        )
       VALUES
-      (
-        '${review.rv_cd}',
-        '${review.user_id}',
-        '${review.ca_no}',
-        '${review.comment}'
-      )
+        (
+          CALL review.rv_cd_counting('${review.user_id}', '${review.ca_no}', '${review.comment}'),
+          '${review.user_id}',
+          '${review.ca_no}',
+          '${review.comment}'
+        )
     ;`;
   },
 

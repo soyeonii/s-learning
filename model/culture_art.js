@@ -59,4 +59,14 @@ module.exports = {
       throw err;
     }
   },
+
+  searchByDistance: async (filter) => {
+    searchCAByDistance = qry.searchCAByDistance(filter);
+    try {
+      rows = await con.selectQuery(searchCAByDistance, pool);
+      return rows;
+    } catch (err) {
+      throw err;
+    }
+  },
 };

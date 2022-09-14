@@ -53,6 +53,9 @@ app.get("/culture-arts/rank/:list", CultureArt.searchByRank);
 // ca_no값으로 문화예술회관 정보 출력
 app.get("/culture-arts/:ca_no", CultureArt.searchByCano);
 
+// distance값으로 문화예술회관 필터링 검색
+app.get("/culture-arts/distance/:list", CultureArt.searchByDistance);
+
 // 리뷰 검색
 app.get("/reviews/:ca_no/:list", Review.searchByCaNo);
 
