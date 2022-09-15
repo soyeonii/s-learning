@@ -20,6 +20,9 @@ app.get("/", User.mainView);
 // 유저 정보
 app.get("/users", User.searchAll);
 
+// id값으로 유저 정보 출력
+app.get("/users/:id", User.searchById);
+
 // 유저 생성
 app.post("/users", User.insert);
 
@@ -28,9 +31,6 @@ app.put("/users/:original_id", User.update);
 
 // 유저 삭제
 app.delete("/users/:id", User.delete);
-
-// id값으로 유저 정보 출력
-app.get("/users/:id", User.searchById);
 
 // 유저 로그인 => 세션토큰 출력
 app.post("/users/login", User.login);

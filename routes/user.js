@@ -55,8 +55,8 @@ module.exports = {
   // 로그인 => 세션 토큰 생성 후 반환
   login: async (req, res) => {
     const user = {
-      id: req.body.id||'',
-      password: req.body.password||''
+      id: req.body.id||"",
+      password: req.body.password||""
     };
     try {
       if (user.id == "" || user.password == "") {

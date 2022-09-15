@@ -21,17 +21,7 @@ module.exports = {
 
   insertUser: (user) => {
     return `
-      INSERT INTO
-        users.users
-      (
-        ID,
-        Password,
-        Sex,
-        Age,
-        Nationality
-      )
-      VALUES
-      (
+      CALL users.insert(
         '${user.id}',
         '${user.password}',
         '${user.sex}',
@@ -197,7 +187,12 @@ module.exports = {
   searchUserById: (id) => {
     return `
       SELECT
-        *
+        id,
+        nationality,
+        age,
+        sex,
+        agearea,
+        memberid
       FROM
         users.users
       WHERE
@@ -213,7 +208,7 @@ module.exports = {
       FROM
         review.review
       WHERE
-        ca_no = ${ca.no}
+        RIGHT(rv_cd, 3) = ${ca.no}
       LIMIT
         ${(ca.list-1)*8}, 8
     ;`;
@@ -222,7 +217,7 @@ module.exports = {
   insertReview: (review) => {
     return `
       CALL
-        review.rv_cd_counting(
+        review.insert(
           '${review.user_id}',
           '${review.ca_no}',
           '${review.comment}'
