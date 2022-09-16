@@ -46,7 +46,7 @@ module.exports = {
       }
 
       rows = await User.insert(user);
-      return res.json(rows);
+      return res.status(201).json(rows);
     } catch (err) {
       return res.status(500).json(err);
     }
@@ -63,7 +63,7 @@ module.exports = {
         return res.status(400).json("insert id or password!");
       }
       rows = await User.login(user);
-      return res.json(rows);
+      return res.status(200).json(rows);
     } catch (err) {
       return res.status(500).json(err);
     }
@@ -73,7 +73,7 @@ module.exports = {
   verify: (req, res) => {
     try {
       rows = User.verify(req.body.token);
-      return res.json(rows);
+      return res.status(200).json(rows);
     } catch (err) {
       return res.status(401).json(err);
     }
