@@ -204,9 +204,18 @@ module.exports = {
   searchReviewByCaNo: (ca) => {
     return `
       SELECT
-        *
+        rv_cd,
+        comment,
+        (
+          SELECT
+            U.id
+          FROM
+            users.users U
+          WHERE
+            U.memberid = R.memberid
+        ) AS id
       FROM
-        review.review
+        review.review R
       WHERE
         RIGHT(rv_cd, 3) = ${ca.no}
       LIMIT
