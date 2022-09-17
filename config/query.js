@@ -24,9 +24,9 @@ module.exports = {
       CALL users.insert(
         '${user.id}',
         '${user.password}',
-        '${user.sex}',
-        '${user.age}',
         '${user.nationality}'
+        '${user.age}',
+        '${user.sex}'
       )
     ;`;
   },

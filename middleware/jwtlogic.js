@@ -37,6 +37,7 @@ module.exports = {
     try {
       // verify를 통해 값 decode
       decoded = jwt.verify(token, secretKey);
+      console.log(decoded)
       return decoded;
     }
     catch (err) {

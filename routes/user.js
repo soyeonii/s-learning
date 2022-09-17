@@ -31,9 +31,9 @@ module.exports = {
     const user = {
       id: req.body.id||'',
       password: req.body.password||'',
-      sex: req.body.sex||0,
-      age: req.body.age||'',
       nationality: req.body.nationality||0,
+      age: req.body.age||'',
+      sex: req.body.sex||0,
     }
     
     try {
