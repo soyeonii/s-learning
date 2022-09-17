@@ -181,18 +181,13 @@
   *     post:
   *       tags: [users]
   *       summary: "액세스 토큰 확인"
-  *       parameters:
-  *         - name: token
-  *           in: body
-  *           description: "액세스 토큰 확인"
-  *           required: true
-  *           schema:
-  *             type: string
-  *           examples:
-  *             Sample:
-  *               value: "zXc325vcakslaxqopweisqws"
-  *               summary: "token"
-  *           style: simple
+  *       requestBody:
+  *         required: true
+  *         content:
+  *           application/json:
+  *             schema:
+  *               example:
+  *                 {"token": "blabla"}
   * 
   *       responses:
   *         "200":
