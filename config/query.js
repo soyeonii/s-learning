@@ -25,8 +25,8 @@ module.exports = {
         '${user.id}',
         '${user.password}',
         '${user.nationality}',
-        '${user.age},
-        '${user.sex}
+        '${user.age}',
+        '${user.sex}'
       )
     ;`;
   },
