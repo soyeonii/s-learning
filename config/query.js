@@ -62,7 +62,6 @@ module.exports = {
     ;`;
   },
 
-
   searchCity: () => {
     // 전체 시 코드 반환
     return `
@@ -77,8 +76,6 @@ module.exports = {
     ;`;
   },
 
-
-  
   searchDistrictByCity: (ca) => {
     // 구코드, 구명칭 district_cd, district_nm 으로 반환
     return `
@@ -95,7 +92,6 @@ module.exports = {
         signgu_nm
     ;`;
   },
-
 
   searchCAByDistrict: (ca) => {
     // 해당 구의 회관 리스트 반환
@@ -135,7 +131,7 @@ module.exports = {
       WHERE
         signgu_cd = '${ca.district_cd}'
       LIMIT
-        ${(ca.list-1)*8}, 8
+        ${(ca.list - 1) * 8}, 8
     ;`;
   },
 
@@ -154,10 +150,10 @@ module.exports = {
     return `
       CALL
         culture_art.analyse(
-          '${filter.nationality == 0? 'lcls' : 'otsd'}',
+          '${filter.nationality == 0 ? "lcls" : "otsd"}',
           '${filter.age_area}',
-          '${filter.sex == 0? 'male' : 'female'}',
-          '${(filter.list-1)*8}'
+          '${filter.sex == 0 ? "male" : "female"}',
+          '${(filter.list - 1) * 8}'
         )
     ;`;
   },
@@ -177,7 +173,7 @@ module.exports = {
                   '${filter.la}',
                   '${filter.lo}',
                   '${filter.distance}',
-                  '${(filter.limit_start-1)*8}'
+                  '${(filter.limit_start - 1) * 8}'
                 )
               )
             )
@@ -219,7 +215,7 @@ module.exports = {
       WHERE
         RIGHT(rv_cd, 3) = ${ca.no}
       LIMIT
-        ${(ca.list-1)*8}, 8
+        ${(ca.list - 1) * 8}, 8
     ;`;
   },
 
@@ -251,6 +247,45 @@ module.exports = {
         review.review
       WHERE
         rv_cd = '${rv_cd}'
+    ;`;
+  },
+
+  getPerformLiked: (perform_id) => {
+    return `
+      CALL
+        perform.search_liked_cnt(
+          '${perform_id}',
+        )
+    ;`;
+  },
+
+  isUserLiked: (perform_id, user_id) => {
+    return `
+      CALL
+        perform.check_liked(
+          '${perform_id}',
+          '${user_id}',
+        )
+    ;`;
+  },
+
+  insertLiked: (perform_id, user_id) => {
+    return `
+      CALL
+        perform.insert_liked(
+          '${perform_id}',
+          '${user_id}',
+        )
+    ;`;
+  },
+
+  deleteLiked: (perform_id, user_id) => {
+    return `
+      CALL
+        perform.cancel_liked(
+          '${perform_id}',
+          '${user_id}',
+        )
     ;`;
   },
 };
