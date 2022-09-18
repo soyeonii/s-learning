@@ -804,7 +804,7 @@
  *              description: "서버에 perform_id, user_id를 전달해 GET 방식으로 정보 출력"
  *              parameters:
  *                  - name: perform_id
- *                    in: query
+ *                    in: path
  *                    description: "공연 ID"
  *                    required: true
  *                    schema:
@@ -821,7 +821,7 @@
  *                          schema:
  *                              example:
  *                                  {
- *                                      "user_id":"22020918"
+ *                                      "user_id":"admin"
  *                                  }
  *                  style: simple
  *              responses:
@@ -848,7 +848,7 @@
  *              description: "서버에 perform_id, user_id를 전달해 POST 방식으로 좋아요 등록"
  *              parameters:
  *                  - name: perform_id
- *                    in: query
+ *                    in: path
  *                    description: "공연 ID"
  *                    required: true
  *                    schema:
@@ -866,7 +866,7 @@
  *                          schema:
  *                              example:
  *                                  {
- *                                      "user_id":"22020918"
+ *                                      "user_id":"admin"
  *                                  }
  *                  style: simple
  *              responses:
@@ -904,7 +904,7 @@
  *                          schema:
  *                              example:
  *                                  {
- *                                      "user_id":"22020918"
+ *                                      "user_id":"admin"
  *                                  }
  *                  style: simple
  *              responses:
