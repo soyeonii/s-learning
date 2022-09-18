@@ -4,6 +4,7 @@ const { swaggerUi, specs } = require("../swagger/swagger");
 const User = require("./user");
 const CultureArt = require("./culture_art");
 const Review = require("./review");
+const Perform = require("./perform");
 const express = require("express");
 const app = express();
 
@@ -67,6 +68,15 @@ app.put("/reviews/:rv_cd", Review.update);
 
 // 리뷰 삭제
 app.delete("/reviews/:rv_cd", Review.delete);
+
+// 공연 좋아요 수, 유저 좋아요 여부 검색
+app.get("/perform/:perform_id", Perform.searchLiked);
+
+// 좋아요 등록
+app.post("/perform/:perform_id", Perform.insert);
+
+// 좋아요 취소
+app.delete("/perform/:perform_id", Perform.delete);
 
 app.listen(PORT, "0.0.0.0", () =>
   console.log(`server has been running... http://localhost:${PORT}/`)
