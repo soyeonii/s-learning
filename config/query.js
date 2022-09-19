@@ -1,3 +1,5 @@
+const { query } = require("express");
+
 module.exports = {
   searchAllUser: () => {
     return `
@@ -250,41 +252,58 @@ module.exports = {
     ;`;
   },
 
-  getPerformLiked: (perform_id) => {
+  searchPerformLiked: (perform) => {
     return `
       CALL
         perform.search_liked_cnt(
-          '${perform_id}',
+          '${perform.perform_id}',
+          '${perform.user_id}'
         )
-    ;`;
+    `
   },
+
 
   isUserLiked: (perform_id, user_id) => {
     return `
       CALL
         perform.check_liked(
           '${perform_id}',
-          '${user_id}',
+          '${user_id}'
         )
     ;`;
   },
 
-  insertLiked: (perform_id, user_id) => {
+
+  insertPerformLiked: (perform) => {
     return `
       CALL
         perform.insert_liked(
-          '${perform_id}',
-          '${user_id}',
+          '${perform.perform_id}',
+          '${perform.user_id}'
+        )
+    ;`;
+  },
+  
+
+  deletePerformLiked: (perform) => {
+    return `
+      CALL
+        perform.delete_liked(
+          '${perform.perform_id}',
+          '${perform.user_id}'
         )
     ;`;
   },
 
-  deleteLiked: (perform_id, user_id) => {
+
+  searchPFByRank: (filter) => {
     return `
       CALL
-        perform.cancel_liked(
-          '${perform_id}',
-          '${user_id}',
+        perform.analyse_liked(
+          '${filter.nationality}',
+          '${filter.age_area}',
+          '${filter.sex}',
+          '${(filter.list - 1) * 8}'
         )
     ;`;
   },

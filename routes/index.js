@@ -69,14 +69,17 @@ app.put("/reviews/:rv_cd", Review.update);
 // 리뷰 삭제
 app.delete("/reviews/:rv_cd", Review.delete);
 
-// 공연 좋아요 수, 유저 좋아요 여부 검색
-app.get("/perform/:perform_id", Perform.searchLiked);
+// 공연 좋아요 수, 해당 유저가 눌렀는지 조회
+app.get("/performs/liked/:perform_id", Perform.searchLiked);
 
 // 좋아요 등록
-app.post("/perform/:perform_id", Perform.insert);
+app.post("/performs/liked/:perform_id", Perform.insertLiked);
 
 // 좋아요 취소
-app.delete("/perform/:perform_id", Perform.delete);
+app.delete("/performs/liked/:perform_id", Perform.deleteLiked);
+
+// 공연 상위검색
+app.get("/performs/rank/:list", Perform.searchByRank);
 
 app.listen(PORT, "0.0.0.0", () =>
   console.log(`server has been running... http://localhost:${PORT}/`)

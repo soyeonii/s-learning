@@ -4,14 +4,11 @@ const con = require("../config/connection");
 const pool = con.init();
 
 module.exports = {
-  searchLiked: async (perform_id) => {
-    getPerformLikedSql = qry.getPerformLiked(perform_id);
-    isUserLikedSql = qry.isUserLiked(perform_id, user_id);
+  searchLiked: async (perform) => {
+    searchPerformLikedSql = qry.searchPerformLiked(perform);
     try {
-      return (rows = {
-        liked_cnt: await con.selectQuery(getPerformLikedSql, pool),
-        is_liked: await con.selectQuery(isUserLikedSql, pool),
-      });
+      rows = await con.selectQuery(searchPerformLikedSql, pool);
+      return rows;
     } catch (err) {
       throw err;
     }
@@ -26,19 +23,29 @@ module.exports = {
   //   }
   // },
 
-  insert: async (perform_id, user_id) => {
-    insertLikedSql = qry.insertLiked(perform_id, user_id);
+  insertLiked: async (perform) => {
+    insertPerformLikedSql = qry.insertPerformLiked(perform);
     try {
-      await con.transactionQuery(insertLikedSql, pool);
+      await con.transactionQuery(insertPerformLikedSql, pool);
     } catch (err) {
       throw err;
     }
   },
 
-  delete: async (perform_id, user_id) => {
-    deleteLikedSql = qry.deleteLiked(review.rv_cd);
+  deleteLiked: async (perform) => {
+    deletePerformLikedSql = qry.deletePerformLiked(perform);
     try {
-      await con.transactionQuery(deleteLikedSql, pool);
+      await con.transactionQuery(deletePerformLikedSql, pool);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  searchByRank: async (filter) => {
+    searchPFByRankSQL = qry.searchPFByRank(filter);
+    try {
+      rows = await con.selectQuery(searchPFByRankSQL, pool);
+      return rows;
     } catch (err) {
       throw err;
     }

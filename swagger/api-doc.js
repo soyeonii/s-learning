@@ -611,7 +611,7 @@
  *                  - name: age_area
  *                    in: query
  *                    description: "연령대"
- *                    required: false
+ *                    required: true
  *                    schema:
  *                        type: integer
  *                    examples:
@@ -623,7 +623,7 @@
  *                  - name: sex
  *                    in: query
  *                    description: "성별 남:0, 여:1"
- *                    required: false
+ *                    required: true
  *                    schema:
  *                        type: integer
  *                    examples:
@@ -635,7 +635,7 @@
  *                  - name: nationality
  *                    in: query
  *                    description: "국적 내:0, 외:1"
- *                    required: false
+ *                    required: true
  *                    schema:
  *                        type: integer
  *                    examples:
@@ -797,11 +797,11 @@
 /**
  *  @swagger
  *  paths:
- *      /perform/{perform_id}:
+ *      /performs/liked/{perform_id}:
  *          get:
- *              tags: [perform]
- *              summary: "공연 좋아요 수, 유저 좋아요 여부 검색"
- *              description: "서버에 perform_id, user_id를 전달해 GET 방식으로 정보 출력"
+ *              tags: [performs]
+ *              summary: "공연 좋아요 수, 해당 유저가 누른 상태인지 조회"
+ *              description: "서버에 perform_id 를 전달해 GET 방식으로 정보 출력"
  *              parameters:
  *                  - name: perform_id
  *                    in: path
@@ -811,39 +811,45 @@
  *                        type: string
  *                    examples:
  *                        Sample1:
- *                            value: P1234567
+ *                            value: "P1234567"
  *                            summary: "perform_id"
  *                    style: simple
- *              requestBody:
- *                  required: true
- *                  content:
- *                      application/json:
- *                          schema:
- *                              example:
- *                                  {
- *                                      "user_id":"admin"
- *                                  }
- *                  style: simple
+ * 
+ *                  - name: user_id
+ *                    in: query
+ *                    description: "공연 ID"
+ *                    required: false
+ *                    schema:
+ *                        type: string
+ *                    examples:
+ *                        Sample1:
+ *                            value: ""
+ *                            summary: "비우기"
+ *                        Sample2:
+ *                            value: "P1234567"
+ *                            summary: "perform_id"
+ *                    style: simple
+ * 
  *              responses:
  *                  "200":
- *                      description: "공연 좋아요 정보 출력 성공(liked_cnt : 좋아요 수, is_liked : 좋아요 여부(1: TRUE, 0: FALSE))"
+ *                      description: "공연 좋아요 정보 출력 성공(liked_cnt : 좋아요 수"
  *                      content:
  *                          application/json:
  *                              schema:
  *                                  type: string
  *                                  example:
- *                                      { liked_cnt: 13, is_liked: 0 }
- *                                  summary: "liked_cnt : 좋아요 수, is_liked : 좋아요 여부(1이면 TRUE 0이면 FALSE)"
+ *                                      { liked_cnt: 13 , check_liked: 0}
+ *                                  summary: "liked_cnt : 좋아요 수"
  *                  "404":
- *                      description: "공연 좋아요 정보 출력 오류"
+ *                      description: "서버/DB 로직 에러"
  */
 
 /**
  *  @swagger
  *  paths:
- *      /perform/{perform_id}:
+ *      /performs/liked/{perform_id}:
  *          post:
- *              tags: [perform]
+ *              tags: [performs]
  *              summary: "좋아요 등록"
  *              description: "서버에 perform_id, user_id를 전달해 POST 방식으로 좋아요 등록"
  *              parameters:
@@ -879,14 +885,14 @@
 /**
  *  @swagger
  *  paths:
- *      /perform/{perform_id}:
+ *      /performs/liked/{perform_id}:
  *          delete:
- *              tags: [perform]
+ *              tags: [performs]
  *              summary: "좋아요 취소"
  *              description: "서버에 perform_id, user_id를 전달해 DELETE 방식으로 좋아요 취소"
  *              parameters:
  *                  - name: perform_id
- *                    in: query
+ *                    in: path
  *                    description: "공연 ID"
  *                    required: true
  *                    schema:
@@ -908,8 +914,80 @@
  *                                  }
  *                  style: simple
  *              responses:
- *                  "204":
+ *                  "200":
  *                      description: "공연 좋아요 취소 성공"
  *                  "404":
  *                      description: "공연 좋아요 취소 오류"
+ */
+
+
+/**
+ *  @swagger
+ *  paths:
+ *      /performs/rank/{list}:
+ *          get:
+ *              tags: [performs]
+ *              summary: "공연 상위 필터링 검색"
+ *              description: "서버에 nationality, age_area, sex, list 전달해 GET 방식으로 정보 출력"
+ *              parameters:
+ *                  - name: list
+ *                    in: path
+ *                    description: "리스트 번호 (단위 : 8) 1부터 시작"
+ *                    required: true
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample1:
+ *                            value: 1
+ *                            summary: "상위 1~8번째 회관 리스트"
+ *                        Sample2:
+ *                            value: 2
+ *                            summary: "상위 9~16번째 회관 리스트"
+ *                    style: simple
+ *
+ *                  - name: nationality
+ *                    in: query
+ *                    description: "국적 내:0, 외:1"
+ *                    required: false
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample:
+ *                            value: 0
+ *                            summary: "내국인"
+ *                    style: simple
+ * 
+ *                  - name: age_area
+ *                    in: query
+ *                    description: "연령대"
+ *                    required: false
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample:
+ *                            value: 10
+ *                            summary: "10대"
+ *                    style: simple
+ *
+ * 
+ *                  - name: sex
+ *                    in: query
+ *                    description: "성별 남:0, 여:1"
+ *                    required: false
+ *                    schema:
+ *                        type: integer
+ *                    examples:
+ *                        Sample:
+ *                            value: 0
+ *                            summary: "남성"
+ *                    style: simple
+ *
+ *              responses:
+ *                  "200":
+ *                      description: "문화예술회관 상위 정보 출력 성공"
+ *                  "404":
+ *                      description: "문화예술회관 정보 출력 오류"
+ *
+ *
+ *
  */
